@@ -17,3 +17,28 @@ run = "golangci-lint run ./..."
 ["lint:fix"]
 description = "Исправить замечания golangci-lint автоматически"
 run = "golangci-lint run --fix ./..."
+
+["web:install"]
+description = "Установить зависимости фронтенда"
+dir = "{{config_root}}/web"
+run = "pnpm install --frozen-lockfile"
+
+["web:dev"]
+description = "Запустить фронтенд в режиме разработки"
+dir = "{{config_root}}/web"
+run = "pnpm dev"
+
+["web:build"]
+description = "Проверить TypeScript и собрать фронтенд"
+dir = "{{config_root}}/web"
+run = "pnpm build"
+
+["web:lint"]
+description = "Проверить код фронтенда"
+dir = "{{config_root}}/web"
+run = "pnpm lint"
+
+["web:preview"]
+description = "Просмотреть сборку фронтенда"
+dir = "{{config_root}}/web"
+run = "pnpm preview"
