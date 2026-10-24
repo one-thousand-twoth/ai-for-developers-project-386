@@ -10,7 +10,10 @@
 
 ## Стек
 
-- Разное
+- Backend: Go
+- Frontend: React, TypeScript, Vite
+- Зависимости фронтенда: pnpm
+- Управление инструментами и задачами: mise
 
 ## Установка
 
@@ -19,6 +22,35 @@
 ```bash
 git clone https://github.com/one-thousand-twoth/ai-for-developers-project-386.git
 cd ai-for-developers-project-386
+```
+
+## Фронтенд
+
+Приложение находится в `web/`. Версии Node.js и pnpm зафиксированы в `mise.toml`.
+
+Установите [mise](https://mise.jdx.dev/), затем выполните из корня проекта:
+
+```bash
+mise trust
+mise install
+mise run web:install
+mise run web:dev
+```
+
+Vite выведет адрес приложения (обычно http://localhost:5173).
+
+```bash
+mise run web:build    # Проверка TypeScript и сборка в web/dist
+mise run web:lint     # Проверка линтером
+mise run web:preview  # Просмотр готовой сборки
+```
+
+Если mise активирован в оболочке, команды pnpm можно запускать напрямую из `web/`:
+
+```bash
+cd web
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 ## Использование
