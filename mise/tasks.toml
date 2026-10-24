@@ -1,0 +1,19 @@
+[build]
+description = "Собрать сервер"
+run = "go build -o bin/server ./cmd/server"
+
+[test]
+description = "Запустить тесты"
+run = "go test ./..."
+
+[run]
+description = "Запустить сервер"
+run = "go run ./cmd/server"
+
+[lint]
+description = "Проверить код с помощью golangci-lint"
+run = "golangci-lint run ./..."
+
+["lint:fix"]
+description = "Исправить замечания golangci-lint автоматически"
+run = "golangci-lint run --fix ./..."

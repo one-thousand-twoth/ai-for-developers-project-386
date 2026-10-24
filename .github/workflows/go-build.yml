@@ -1,4 +1,4 @@
-name: Go build
+name: Go checks
 
 on:
   push:
@@ -12,9 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: go.mod
-          cache: false
+      - uses: jdx/mise-action@v5
+      - name: Lint
+        run: mise run lint
+      - name: Test
+        run: mise run test
       - name: Build server
-        run: go build -o /tmp/calendar-server ./cmd/server
+        run: mise run build
