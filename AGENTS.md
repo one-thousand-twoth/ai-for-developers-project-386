@@ -4,8 +4,10 @@
 
 This calendar-booking project combines a Go backend with a React/TypeScript frontend.
 
-- `cmd/server/main.go`: HTTP server entry point; currently serves `GET /health` on port 8080.
-- `internal/`, `modules/`, and `config/`: placeholder directories for backend implementation and configuration.
+- `cmd/server/main.go`: HTTP server entry point on port 8080; generated router and handwritten handlers in `internal/booking/`.
+- `typespec/`: authoritative API contract. `openapi/`, `gen/api/`, and `web/src/generated/api/` are committed generated artifacts; never edit them manually.
+- Change TypeSpec, run `mise run generate`, and commit contract and all generated changes together. `mise run generate:check` detects drift.
+- `internal/booking/`: in-memory booking implementation and HTTP tests.
 - `web/src/`: React components, styles, and bundled assets in `assets/`; `web/public/` contains static assets.
 - `mise.toml` and `mise/tasks.toml`: pinned tools and development tasks.
 - `docs/`: project and release documentation; `.github/workflows/`: CI and release automation.
@@ -15,7 +17,10 @@ This calendar-booking project combines a Go backend with a React/TypeScript fron
 Run commands from the repository root:
 
 - `mise trust` then `mise install`: trust the configuration and install pinned tools.
-- `mise run web:install`: install frontend dependencies using the frozen pnpm lockfile.
+- `mise run install`: install workspace and Go dependencies. `web:install` remains an alias for frozen workspace pnpm installation.
+- `mise run generate`: TypeSpec → OpenAPI → Go server and TS SDK. Individual `generate:typespec`, `generate:backend`, and `generate:frontend` tasks are available; backend/frontend consume existing OpenAPI.
+- `mise run generate:check`: regenerate and check artifact drift, including missing and untracked files.
+- `go test -race ./...`: verify concurrent in-memory storage.
 - `mise run run`: start the Go server.
 - `mise run web:dev`: start the Vite development server, usually on port 5173.
 - `mise run build`: compile the backend to `bin/server`.
@@ -29,10 +34,28 @@ Format Go with `gofmt` and use standard Go naming conventions: lowercase package
 
 ## Testing Guidelines
 
-No test files or frontend test framework are currently present, and no coverage threshold is configured. Add Go tests alongside implementation in `*_test.go` files using `testing` and `TestXxx` functions. Run `mise run test` before submitting backend changes. For frontend changes, run lint and build, and manually verify affected interactions; these checks do not replace behavioral tests.
+HTTP tests cover the booking API. No frontend test framework or coverage threshold is configured. Add Go tests alongside implementation in `*_test.go` files using `testing` and `TestXxx` functions. Run `mise run test` before submitting backend changes. For frontend changes, run lint and build, and manually verify affected interactions; these checks do not replace behavioral tests.
 
 ## Commit & Pull Request Guidelines
 
 Recent commits use Conventional Commits, including `ci:` and `chore:`. Use descriptive `feat:`, `fix:`, or `docs:` prefixes; release-please uses commit messages to determine releases. Keep squash-merge titles conventional. PR descriptions should explain behavior changes, link relevant issues, report validation, and include screenshots for UI changes.
 
 Do not edit or delete `.github/workflows/hexlet-check.yml` or rename the repository. Keep credentials and local `.env` files out of Git; provide example configuration without secrets when needed.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live in GitHub Issues for
+`one-thousand-twoth/ai-for-developers-project-386`.
+See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five default triage labels.
+See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: root `GLOSSARY.md` and `docs/adr/`.
+See `docs/agents/domain.md`.
