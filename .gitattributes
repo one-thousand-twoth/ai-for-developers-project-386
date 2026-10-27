@@ -1,0 +1,3 @@
+openapi/** linguist-generated=true
+gen/api/** linguist-generated=true
+web/src/generated/api/** linguist-generated=true

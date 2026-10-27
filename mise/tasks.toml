@@ -19,8 +19,7 @@ description = "Исправить замечания golangci-lint автома�
 run = "golangci-lint run --fix ./..."
 
 ["web:install"]
-description = "Установить зависимости фронтенда"
-dir = "{{config_root}}/web"
+description = "Установить зависимости workspace"
 run = "pnpm install --frozen-lockfile"
 
 ["web:dev"]
@@ -42,3 +41,24 @@ run = "pnpm lint"
 description = "Просмотреть сборку фронтенда"
 dir = "{{config_root}}/web"
 run = "pnpm preview"
+
+[install]
+description = "Установить зависимости workspace и Go"
+run = ["pnpm install --frozen-lockfile", "go mod download"]
+
+["generate:typespec"]
+run = "pnpm exec tsp compile typespec"
+
+["generate:backend"]
+run = "go tool ogen --config .ogen.yml --target gen/api --package api --clean openapi/openapi.json"
+
+["generate:frontend"]
+run = "pnpm exec openapi-ts"
+
+[generate]
+description = "Сгенерировать OpenAPI, Go и TypeScript"
+run = ["mise run generate:typespec", "mise run generate:backend", "mise run generate:frontend"]
+
+["generate:check"]
+description = "Проверить актуальность и повторяемость артефактов"
+run = "node mise/generate-check.mjs"

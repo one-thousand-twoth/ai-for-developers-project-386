@@ -37,3 +37,7 @@ go.work.sum
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# JavaScript dependencies
+node_modules/
+web/dist/
