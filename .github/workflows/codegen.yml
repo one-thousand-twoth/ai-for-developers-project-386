@@ -1,0 +1,20 @@
+name: Contract and application
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v3
+      - run: mise run install
+      - run: mise run generate:check
+      - run: mise run lint
+      - run: mise run test
+      - run: mise exec -- go test -race ./...
+      - run: mise run build
+      - run: mise run web:lint
+      - run: mise run web:build
