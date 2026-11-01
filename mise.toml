@@ -1,7 +1,7 @@
 [tools]
 go = "1.27.3"
 golangci-lint = "2.15.0"
-node = "24.22.1"
+node = "26.13"
 pnpm = "10.34.7"
 
 [task_config]
