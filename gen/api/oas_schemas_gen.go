@@ -34,7 +34,8 @@ func (s *ApiError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ApiError) createBookingRes() {}
+func (*ApiError) createBookingRes()     {}
+func (*ApiError) createMeetingTypeRes() {}
 
 // Merged schema.
 // Ref: #/components/schemas/Booking
@@ -125,6 +126,128 @@ func (s *BookingInput) SetEndsAt(val time.Time) {
 	s.EndsAt = val
 }
 
+type CreateMeetingTypeConflict struct {
+	Code    CreateMeetingTypeConflictCode `json:"code"`
+	Message string                        `json:"message"`
+}
+
+// GetCode returns the value of Code.
+func (s *CreateMeetingTypeConflict) GetCode() CreateMeetingTypeConflictCode {
+	return s.Code
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateMeetingTypeConflict) GetMessage() string {
+	return s.Message
+}
+
+// SetCode sets the value of Code.
+func (s *CreateMeetingTypeConflict) SetCode(val CreateMeetingTypeConflictCode) {
+	s.Code = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateMeetingTypeConflict) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateMeetingTypeConflict) createMeetingTypeRes() {}
+
+type CreateMeetingTypeConflictCode string
+
+const (
+	CreateMeetingTypeConflictCodeDuplicateMeetingType CreateMeetingTypeConflictCode = "duplicate_meeting_type"
+)
+
+// AllValues returns all CreateMeetingTypeConflictCode values.
+func (CreateMeetingTypeConflictCode) AllValues() []CreateMeetingTypeConflictCode {
+	return []CreateMeetingTypeConflictCode{
+		CreateMeetingTypeConflictCodeDuplicateMeetingType,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateMeetingTypeConflictCode) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateMeetingTypeConflictCodeDuplicateMeetingType:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateMeetingTypeConflictCode) UnmarshalText(data []byte) error {
+	switch CreateMeetingTypeConflictCode(data) {
+	case CreateMeetingTypeConflictCodeDuplicateMeetingType:
+		*s = CreateMeetingTypeConflictCodeDuplicateMeetingType
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CreateMeetingTypeServiceUnavailable struct {
+	Code    CreateMeetingTypeServiceUnavailableCode `json:"code"`
+	Message string                                  `json:"message"`
+}
+
+// GetCode returns the value of Code.
+func (s *CreateMeetingTypeServiceUnavailable) GetCode() CreateMeetingTypeServiceUnavailableCode {
+	return s.Code
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateMeetingTypeServiceUnavailable) GetMessage() string {
+	return s.Message
+}
+
+// SetCode sets the value of Code.
+func (s *CreateMeetingTypeServiceUnavailable) SetCode(val CreateMeetingTypeServiceUnavailableCode) {
+	s.Code = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateMeetingTypeServiceUnavailable) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateMeetingTypeServiceUnavailable) createMeetingTypeRes() {}
+
+type CreateMeetingTypeServiceUnavailableCode string
+
+const (
+	CreateMeetingTypeServiceUnavailableCodeTemporarilyUnavailable CreateMeetingTypeServiceUnavailableCode = "temporarily_unavailable"
+)
+
+// AllValues returns all CreateMeetingTypeServiceUnavailableCode values.
+func (CreateMeetingTypeServiceUnavailableCode) AllValues() []CreateMeetingTypeServiceUnavailableCode {
+	return []CreateMeetingTypeServiceUnavailableCode{
+		CreateMeetingTypeServiceUnavailableCodeTemporarilyUnavailable,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateMeetingTypeServiceUnavailableCode) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateMeetingTypeServiceUnavailableCodeTemporarilyUnavailable:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateMeetingTypeServiceUnavailableCode) UnmarshalText(data []byte) error {
+	switch CreateMeetingTypeServiceUnavailableCode(data) {
+	case CreateMeetingTypeServiceUnavailableCodeTemporarilyUnavailable:
+		*s = CreateMeetingTypeServiceUnavailableCodeTemporarilyUnavailable
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type GetBookingBadRequest ApiError
 
 func (*GetBookingBadRequest) getBookingRes() {}
@@ -132,6 +255,71 @@ func (*GetBookingBadRequest) getBookingRes() {}
 type GetBookingNotFound ApiError
 
 func (*GetBookingNotFound) getBookingRes() {}
+
+type GetMeetingTypesOKApplicationJSON []MeetingType
+
+func (*GetMeetingTypesOKApplicationJSON) getMeetingTypesRes() {}
+
+type GetMeetingTypesServiceUnavailable struct {
+	Code    GetMeetingTypesServiceUnavailableCode `json:"code"`
+	Message string                                `json:"message"`
+}
+
+// GetCode returns the value of Code.
+func (s *GetMeetingTypesServiceUnavailable) GetCode() GetMeetingTypesServiceUnavailableCode {
+	return s.Code
+}
+
+// GetMessage returns the value of Message.
+func (s *GetMeetingTypesServiceUnavailable) GetMessage() string {
+	return s.Message
+}
+
+// SetCode sets the value of Code.
+func (s *GetMeetingTypesServiceUnavailable) SetCode(val GetMeetingTypesServiceUnavailableCode) {
+	s.Code = val
+}
+
+// SetMessage sets the value of Message.
+func (s *GetMeetingTypesServiceUnavailable) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*GetMeetingTypesServiceUnavailable) getMeetingTypesRes() {}
+
+type GetMeetingTypesServiceUnavailableCode string
+
+const (
+	GetMeetingTypesServiceUnavailableCodeTemporarilyUnavailable GetMeetingTypesServiceUnavailableCode = "temporarily_unavailable"
+)
+
+// AllValues returns all GetMeetingTypesServiceUnavailableCode values.
+func (GetMeetingTypesServiceUnavailableCode) AllValues() []GetMeetingTypesServiceUnavailableCode {
+	return []GetMeetingTypesServiceUnavailableCode{
+		GetMeetingTypesServiceUnavailableCodeTemporarilyUnavailable,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetMeetingTypesServiceUnavailableCode) MarshalText() ([]byte, error) {
+	switch s {
+	case GetMeetingTypesServiceUnavailableCodeTemporarilyUnavailable:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetMeetingTypesServiceUnavailableCode) UnmarshalText(data []byte) error {
+	switch GetMeetingTypesServiceUnavailableCode(data) {
+	case GetMeetingTypesServiceUnavailableCodeTemporarilyUnavailable:
+		*s = GetMeetingTypesServiceUnavailableCodeTemporarilyUnavailable
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/Health
 type Health struct {
@@ -180,4 +368,146 @@ func (s *HealthStatus) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Merged schema.
+// Ref: #/components/schemas/MeetingType
+type MeetingType struct {
+	// 1–200 Unicode code points, with a non-whitespace character. Leading and trailing Unicode
+	// whitespace is removed before storing.
+	Name            string `json:"name"`
+	DurationMinutes int32  `json:"durationMinutes"`
+	// Optional description, at most 2000 Unicode code points. Stored unchanged.
+	Description OptString `json:"description"`
+	ID          string    `json:"id"`
+}
+
+// GetName returns the value of Name.
+func (s *MeetingType) GetName() string {
+	return s.Name
+}
+
+// GetDurationMinutes returns the value of DurationMinutes.
+func (s *MeetingType) GetDurationMinutes() int32 {
+	return s.DurationMinutes
+}
+
+// GetDescription returns the value of Description.
+func (s *MeetingType) GetDescription() OptString {
+	return s.Description
+}
+
+// GetID returns the value of ID.
+func (s *MeetingType) GetID() string {
+	return s.ID
+}
+
+// SetName sets the value of Name.
+func (s *MeetingType) SetName(val string) {
+	s.Name = val
+}
+
+// SetDurationMinutes sets the value of DurationMinutes.
+func (s *MeetingType) SetDurationMinutes(val int32) {
+	s.DurationMinutes = val
+}
+
+// SetDescription sets the value of Description.
+func (s *MeetingType) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetID sets the value of ID.
+func (s *MeetingType) SetID(val string) {
+	s.ID = val
+}
+
+func (*MeetingType) createMeetingTypeRes() {}
+
+// A meeting type. Names are trimmed with Unicode whitespace and compared using Unicode case folding;
+// internal whitespace is significant.
+// Ref: #/components/schemas/MeetingTypeInput
+type MeetingTypeInput struct {
+	// 1–200 Unicode code points, with a non-whitespace character. Leading and trailing Unicode
+	// whitespace is removed before storing.
+	Name            string `json:"name"`
+	DurationMinutes int32  `json:"durationMinutes"`
+	// Optional description, at most 2000 Unicode code points. Stored unchanged.
+	Description OptString `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *MeetingTypeInput) GetName() string {
+	return s.Name
+}
+
+// GetDurationMinutes returns the value of DurationMinutes.
+func (s *MeetingTypeInput) GetDurationMinutes() int32 {
+	return s.DurationMinutes
+}
+
+// GetDescription returns the value of Description.
+func (s *MeetingTypeInput) GetDescription() OptString {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *MeetingTypeInput) SetName(val string) {
+	s.Name = val
+}
+
+// SetDurationMinutes sets the value of DurationMinutes.
+func (s *MeetingTypeInput) SetDurationMinutes(val int32) {
+	s.DurationMinutes = val
+}
+
+// SetDescription sets the value of Description.
+func (s *MeetingTypeInput) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// NewOptString returns new OptString with value set to v.
+func NewOptString(v string) OptString {
+	return OptString{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptString is optional string.
+type OptString struct {
+	Value string
+	Set   bool
+}
+
+// IsSet returns true if OptString was set.
+func (o OptString) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptString) Reset() {
+	var v string
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptString) SetTo(v string) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptString) Get() (v string, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }

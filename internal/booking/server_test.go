@@ -1,20 +1,29 @@
 package booking
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"path/filepath"
 	"strings"
 	"sync"
 	"testing"
 
 	"github.com/google/uuid"
 	"github.com/one-thousand-twoth/calendar/gen/api"
+	"github.com/one-thousand-twoth/calendar/internal/meetingtype"
+	"github.com/one-thousand-twoth/calendar/internal/storage"
 )
 
 func newTestServer(t *testing.T) http.Handler {
 	t.Helper()
-	server, err := NewServer()
+	store, err := storage.Open(context.Background(), filepath.Join(t.TempDir(), "calendar.sqlite"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = store.Close() })
+	server, err := NewServer(meetingtype.New(store))
 	if err != nil {
 		t.Fatal(err)
 	}

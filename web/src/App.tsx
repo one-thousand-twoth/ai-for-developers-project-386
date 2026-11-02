@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { createBooking, getBooking, type Booking } from './generated/api'
+import { createBooking, getBooking, type Booking } from '@calendar/sdk'
 import './App.css'
 
 function errorMessage(error: unknown): string {

@@ -16,5 +16,6 @@ jobs:
       - run: mise run test
       - run: mise exec -- go test -race ./...
       - run: mise run build
+      - run: mise run test:api
       - run: mise run web:lint
       - run: mise run web:build

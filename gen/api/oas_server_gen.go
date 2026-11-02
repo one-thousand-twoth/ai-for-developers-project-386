@@ -12,6 +12,10 @@ type Handler interface {
 	//
 	// POST /api/bookings
 	CreateBooking(ctx context.Context, req *BookingInput) (CreateBookingRes, error)
+	// CreateMeetingType implements createMeetingType operation.
+	//
+	// POST /api/owner/meeting-types
+	CreateMeetingType(ctx context.Context, req *MeetingTypeInput) (CreateMeetingTypeRes, error)
 	// GetBooking implements getBooking operation.
 	//
 	// GET /api/bookings/{id}
@@ -20,6 +24,10 @@ type Handler interface {
 	//
 	// GET /health
 	GetHealth(ctx context.Context) (*Health, error)
+	// GetMeetingTypes implements getMeetingTypes operation.
+	//
+	// GET /api/meeting-types
+	GetMeetingTypes(ctx context.Context) (GetMeetingTypesRes, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and

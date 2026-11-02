@@ -5,6 +5,14 @@ type CreateBookingRes interface {
 	createBookingRes()
 }
 
+type CreateMeetingTypeRes interface {
+	createMeetingTypeRes()
+}
+
 type GetBookingRes interface {
 	getBookingRes()
+}
+
+type GetMeetingTypesRes interface {
+	getMeetingTypesRes()
 }

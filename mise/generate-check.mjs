@@ -1,7 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 
-const roots = ['openapi', 'gen/api', 'web/src/generated/api']
+const roots = ['openapi', 'gen/api', 'packages/sdk/src/generated', 'internal/storage/ent']
 async function snapshot() {
   const files = new Map()
   async function visit(path) {

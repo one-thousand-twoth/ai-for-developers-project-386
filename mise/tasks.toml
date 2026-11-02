@@ -24,11 +24,13 @@ run = "pnpm install --frozen-lockfile"
 
 ["web:dev"]
 description = "Запустить фронтенд в режиме разработки"
+depends = ["sdk:build"]
 dir = "{{config_root}}/web"
 run = "pnpm dev"
 
 ["web:build"]
 description = "Проверить TypeScript и собрать фронтенд"
+depends = ["sdk:build"]
 dir = "{{config_root}}/web"
 run = "pnpm build"
 
@@ -55,9 +57,26 @@ run = "go tool ogen --config .ogen.yml --target gen/api --package api --clean op
 ["generate:frontend"]
 run = "pnpm exec openapi-ts"
 
+["generate:storage"]
+description = "Сгенерировать Ent без создания миграций"
+run = "go tool ent generate --feature sql/versioned-migration --target ./internal/storage/ent ./internal/storage/schema"
+
+["storage:diff"]
+description = "Создать версионированную миграцию из схем Ent (NAME=...)"
+run = "CGO_ENABLED=0 go run ./cmd/storage-diff"
+
+["test:api"]
+description = "Проверить SDK через настоящий HTTP-сервер и SQLite"
+depends = ["sdk:build"]
+run = ["pnpm exec tsc -p tests/api/tsconfig.json", "mkdir -p .test/api", "CGO_ENABLED=0 go build -o .test/api/server ./cmd/server", "node --test --test-timeout=30000 .test/api/build/tests/api/*.test.js"]
+
+["sdk:build"]
+description = "Проверить типы SDK и собрать независимый JS-пакет"
+run = "pnpm exec tsc -p packages/sdk/tsconfig.json"
+
 [generate]
 description = "Сгенерировать OpenAPI, Go и TypeScript"
-run = ["mise run generate:typespec", "mise run generate:backend", "mise run generate:frontend"]
+run = ["mise run generate:typespec", "mise run generate:backend", "mise run generate:frontend", "mise run generate:storage"]
 
 ["generate:check"]
 description = "Проверить актуальность и повторяемость артефактов"

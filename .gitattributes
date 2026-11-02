@@ -1,3 +1,4 @@
 openapi/** linguist-generated=true
 gen/api/** linguist-generated=true
-web/src/generated/api/** linguist-generated=true
+packages/sdk/src/generated/** linguist-generated=true
+internal/storage/ent/** linguist-generated=true

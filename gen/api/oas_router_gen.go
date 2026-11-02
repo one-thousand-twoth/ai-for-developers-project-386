@@ -14,6 +14,9 @@ var (
 	rn1AllowedHeaders = map[string]string{
 		"POST": "Content-Type",
 	}
+	rn3AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
 )
 
 func (s *Server) cutPrefix(path string) (string, bool) {
@@ -67,59 +70,123 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				break
 			}
 			switch elem[0] {
-			case 'a': // Prefix: "api/bookings"
+			case 'a': // Prefix: "api/"
 
-				if l := len("api/bookings"); len(elem) >= l && elem[0:l] == "api/bookings" {
+				if l := len("api/"); len(elem) >= l && elem[0:l] == "api/" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
 				if len(elem) == 0 {
-					switch r.Method {
-					case "POST":
-						s.handleCreateBookingRequest([0]string{}, elemIsEscaped, w, r)
-					default:
-						s.notAllowed(w, r, notAllowedParams{
-							allowedMethods: "POST",
-							allowedHeaders: rn1AllowedHeaders,
-							acceptPost:     "application/json",
-							acceptPatch:    "",
-						})
-					}
-
-					return
+					break
 				}
 				switch elem[0] {
-				case '/': // Prefix: "/"
+				case 'b': // Prefix: "bookings"
 
-					if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+					if l := len("bookings"); len(elem) >= l && elem[0:l] == "bookings" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
-					// Param: "id"
-					// Leaf parameter, slashes are prohibited
-					idx := strings.IndexByte(elem, '/')
-					if idx >= 0 {
+					if len(elem) == 0 {
+						switch r.Method {
+						case "POST":
+							s.handleCreateBookingRequest([0]string{}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn1AllowedHeaders,
+								acceptPost:     "application/json",
+								acceptPatch:    "",
+							})
+						}
+
+						return
+					}
+					switch elem[0] {
+					case '/': // Prefix: "/"
+
+						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						// Param: "id"
+						// Leaf parameter, slashes are prohibited
+						idx := strings.IndexByte(elem, '/')
+						if idx >= 0 {
+							break
+						}
+						args[0] = elem
+						elem = ""
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "GET":
+								s.handleGetBookingRequest([1]string{
+									args[0],
+								}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
+					}
+
+				case 'm': // Prefix: "meeting-types"
+
+					if l := len("meeting-types"); len(elem) >= l && elem[0:l] == "meeting-types" {
+						elem = elem[l:]
+					} else {
 						break
 					}
-					args[0] = elem
-					elem = ""
 
 					if len(elem) == 0 {
 						// Leaf node.
 						switch r.Method {
 						case "GET":
-							s.handleGetBookingRequest([1]string{
-								args[0],
-							}, elemIsEscaped, w, r)
+							s.handleGetMeetingTypesRequest([0]string{}, elemIsEscaped, w, r)
 						default:
 							s.notAllowed(w, r, notAllowedParams{
 								allowedMethods: "GET",
 								allowedHeaders: nil,
 								acceptPost:     "",
+								acceptPatch:    "",
+							})
+						}
+
+						return
+					}
+
+				case 'o': // Prefix: "owner/meeting-types"
+
+					if l := len("owner/meeting-types"); len(elem) >= l && elem[0:l] == "owner/meeting-types" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch r.Method {
+						case "POST":
+							s.handleCreateMeetingTypeRequest([0]string{}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn3AllowedHeaders,
+								acceptPost:     "application/json",
 								acceptPatch:    "",
 							})
 						}
@@ -254,58 +321,122 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				break
 			}
 			switch elem[0] {
-			case 'a': // Prefix: "api/bookings"
+			case 'a': // Prefix: "api/"
 
-				if l := len("api/bookings"); len(elem) >= l && elem[0:l] == "api/bookings" {
+				if l := len("api/"); len(elem) >= l && elem[0:l] == "api/" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
 				if len(elem) == 0 {
-					switch method {
-					case "POST":
-						r.name = CreateBookingOperation
-						r.summary = ""
-						r.operationID = "createBooking"
-						r.operationGroup = ""
-						r.pathPattern = "/api/bookings"
-						r.args = args
-						r.count = 0
-						return r, true
-					default:
-						return
-					}
+					break
 				}
 				switch elem[0] {
-				case '/': // Prefix: "/"
+				case 'b': // Prefix: "bookings"
 
-					if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+					if l := len("bookings"); len(elem) >= l && elem[0:l] == "bookings" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
-					// Param: "id"
-					// Leaf parameter, slashes are prohibited
-					idx := strings.IndexByte(elem, '/')
-					if idx >= 0 {
+					if len(elem) == 0 {
+						switch method {
+						case "POST":
+							r.name = CreateBookingOperation
+							r.summary = ""
+							r.operationID = "createBooking"
+							r.operationGroup = ""
+							r.pathPattern = "/api/bookings"
+							r.args = args
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+					switch elem[0] {
+					case '/': // Prefix: "/"
+
+						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						// Param: "id"
+						// Leaf parameter, slashes are prohibited
+						idx := strings.IndexByte(elem, '/')
+						if idx >= 0 {
+							break
+						}
+						args[0] = elem
+						elem = ""
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "GET":
+								r.name = GetBookingOperation
+								r.summary = ""
+								r.operationID = "getBooking"
+								r.operationGroup = ""
+								r.pathPattern = "/api/bookings/{id}"
+								r.args = args
+								r.count = 1
+								return r, true
+							default:
+								return
+							}
+						}
+
+					}
+
+				case 'm': // Prefix: "meeting-types"
+
+					if l := len("meeting-types"); len(elem) >= l && elem[0:l] == "meeting-types" {
+						elem = elem[l:]
+					} else {
 						break
 					}
-					args[0] = elem
-					elem = ""
 
 					if len(elem) == 0 {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = GetBookingOperation
+							r.name = GetMeetingTypesOperation
 							r.summary = ""
-							r.operationID = "getBooking"
+							r.operationID = "getMeetingTypes"
 							r.operationGroup = ""
-							r.pathPattern = "/api/bookings/{id}"
+							r.pathPattern = "/api/meeting-types"
 							r.args = args
-							r.count = 1
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+
+				case 'o': // Prefix: "owner/meeting-types"
+
+					if l := len("owner/meeting-types"); len(elem) >= l && elem[0:l] == "owner/meeting-types" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch method {
+						case "POST":
+							r.name = CreateMeetingTypeOperation
+							r.summary = ""
+							r.operationID = "createMeetingType"
+							r.operationGroup = ""
+							r.pathPattern = "/api/owner/meeting-types"
+							r.args = args
+							r.count = 0
 							return r, true
 						default:
 							return

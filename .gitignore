@@ -41,3 +41,6 @@ Desktop.ini
 # JavaScript dependencies
 node_modules/
 web/dist/
+/.test/
+/data/
+packages/sdk/dist/

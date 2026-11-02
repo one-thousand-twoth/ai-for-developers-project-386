@@ -4,6 +4,8 @@
   "type": "module",
   "packageManager": "pnpm@10.34.7",
   "devDependencies": {
+    "@calendar/sdk": "workspace:*",
+    "@types/node": "24.19.2",
     "@typespec/compiler": "1.17.0",
     "@typespec/http": "1.17.0",
     "@typespec/openapi": "1.17.0",
