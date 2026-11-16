@@ -43,6 +43,20 @@ Backend слушает http://localhost:8080, Vite — обычно http://local
 
 Проверка API без React: `mise run test:api` (tsc, node:test, настоящий сервер и отдельная SQLite).
 
+### Backend в Docker
+
+```bash
+docker build -t calendar-backend .
+docker run --rm -p 8080:8080 \
+  -e CALENDAR_TIMEZONE=Europe/Moscow \
+  -v calendar-data:/data \
+  calendar-backend
+```
+
+API доступен на http://localhost:8080. Образ содержит только бекенд и запускается
+без root. SQLite хранится в томе `calendar-data`, который сохраняется после удаления
+контейнера. `CALENDAR_TIMEZONE` нужно передать явно, как и при локальном запуске.
+
 ## Документация
 
 - [Целевой продукт](docs/product.md) — сценарии и бизнес-правила.
