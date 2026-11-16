@@ -20,7 +20,8 @@ COPY --from=build --chown=65532:65532 /out/data /data
 USER 65532:65532
 
 ENV LISTEN_ADDR=:8080 \
-    DATABASE_PATH=/data/calendar.sqlite
+    DATABASE_PATH=/data/calendar.sqlite \
+    CALENDAR_TIMEZONE=Etc/UTC
 
 EXPOSE 8080
 
