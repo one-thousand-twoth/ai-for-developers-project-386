@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client/index.js';
-import type { CreateBookingData, CreateBookingErrors, CreateBookingResponses, CreateMeetingTypeData, CreateMeetingTypeErrors, CreateMeetingTypeResponses, GetBookingData, GetBookingErrors, GetBookingResponses, GetHealthData, GetHealthResponses, GetMeetingTypesData, GetMeetingTypesErrors, GetMeetingTypesResponses } from './types.gen.js';
+import type { CreateBookingData, CreateBookingErrors, CreateBookingResponses, CreateMeetingTypeData, CreateMeetingTypeErrors, CreateMeetingTypeResponses, GetBookingData, GetBookingErrors, GetBookingResponses, GetHealthData, GetHealthResponses, GetMeetingTypesData, GetMeetingTypesErrors, GetMeetingTypesResponses, GetRootData, GetRootResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -17,6 +17,11 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
+
+/**
+ * Deployment readiness endpoint for external container health checks.
+ */
+export const getRoot = <ThrowOnError extends boolean = false>(options?: Options<GetRootData, ThrowOnError>): RequestResult<GetRootResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetRootResponses, unknown, ThrowOnError>({ url: '/', ...options });
 
 export const createBooking = <ThrowOnError extends boolean = false>(options: Options<CreateBookingData, ThrowOnError>): RequestResult<CreateBookingResponses, CreateBookingErrors, ThrowOnError> => (options.client ?? client).post<CreateBookingResponses, CreateBookingErrors, ThrowOnError>({
     url: '/api/bookings',

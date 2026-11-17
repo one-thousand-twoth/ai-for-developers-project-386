@@ -6,6 +6,25 @@
   },
   "tags": [],
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "getRoot",
+        "description": "Deployment readiness endpoint for external container health checks.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/bookings": {
       "post": {
         "operationId": "createBooking",

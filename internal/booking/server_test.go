@@ -43,16 +43,21 @@ func request(server http.Handler, method, path, body string) *httptest.ResponseR
 const validBody = `{"title":"Call","startsAt":"2026-11-01T15:00:00+08:00","endsAt":"2026-11-01T15:30:00+08:00"}`
 
 func TestHealth(t *testing.T) {
-	rec := request(newTestServer(t), http.MethodGet, "/health", "")
-	if rec.Code != 200 {
-		t.Fatalf("status %d: %s", rec.Code, rec.Body)
-	}
-	var body map[string]string
-	if err := json.Unmarshal(rec.Body.Bytes(), &body); err != nil {
-		t.Fatal(err)
-	}
-	if len(body) != 1 || body["status"] != "ok" {
-		t.Fatalf("body: %v", body)
+	server := newTestServer(t)
+	for _, path := range []string{"/", "/health"} {
+		t.Run(path, func(t *testing.T) {
+			rec := request(server, http.MethodGet, path, "")
+			if rec.Code != 200 {
+				t.Fatalf("status %d: %s", rec.Code, rec.Body)
+			}
+			var body map[string]string
+			if err := json.Unmarshal(rec.Body.Bytes(), &body); err != nil {
+				t.Fatal(err)
+			}
+			if len(body) != 1 || body["status"] != "ok" {
+				t.Fatalf("body: %v", body)
+			}
+		})
 	}
 }
 

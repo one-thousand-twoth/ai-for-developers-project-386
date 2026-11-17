@@ -28,6 +28,12 @@ type Handler interface {
 	//
 	// GET /api/meeting-types
 	GetMeetingTypes(ctx context.Context) (GetMeetingTypesRes, error)
+	// GetRoot implements getRoot operation.
+	//
+	// Deployment readiness endpoint for external container health checks.
+	//
+	// GET /
+	GetRoot(ctx context.Context) (*Health, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and

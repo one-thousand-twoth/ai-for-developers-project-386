@@ -42,6 +42,22 @@ export type MeetingTypeInput = {
     description?: string;
 };
 
+export type GetRootData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/';
+};
+
+export type GetRootResponses = {
+    /**
+     * The request has succeeded.
+     */
+    200: Health;
+};
+
+export type GetRootResponse = GetRootResponses[keyof GetRootResponses];
+
 export type CreateBookingData = {
     body: BookingInput;
     path?: never;

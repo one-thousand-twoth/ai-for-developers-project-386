@@ -11,4 +11,5 @@ const (
 	GetBookingOperation        OperationName = "GetBooking"
 	GetHealthOperation         OperationName = "GetHealth"
 	GetMeetingTypesOperation   OperationName = "GetMeetingTypes"
+	GetRootOperation           OperationName = "GetRoot"
 )

@@ -29,6 +29,10 @@ func NewServer(types *meetingtype.Service) (*api.Server, error) {
 	return api.NewServer(&handler{meetingTypes: types, bookings: make(map[string]api.Booking)}, api.WithErrorHandler(handleError))
 }
 
+func (h *handler) GetRoot(ctx context.Context) (*api.Health, error) {
+	return h.GetHealth(ctx)
+}
+
 func (h *handler) GetHealth(context.Context) (*api.Health, error) {
 	return &api.Health{Status: api.HealthStatusOk}, nil
 }

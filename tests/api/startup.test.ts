@@ -3,8 +3,16 @@ import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import { test } from 'node:test'
-import { createMeetingType, getMeetingTypes } from '@calendar/sdk'
+import { createMeetingType, getMeetingTypes, getRoot } from '@calendar/sdk'
 import { server } from './harness.js'
+
+test('the deployment healthcheck succeeds at the root path', async t => {
+  const app = await server(t)
+  const client = await app.start()
+  const result = await getRoot({ client })
+  assert.equal(result.response?.status, 200)
+  assert.deepEqual(result.data, { status: 'ok' })
+})
 
 test('startup requires a named IANA calendar time zone', async t => {
   for (const timeZone of ['', 'Local', '+03:00', 'Mars/Olympus', ' Europe/Moscow ']) {

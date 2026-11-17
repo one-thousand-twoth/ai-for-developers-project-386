@@ -57,6 +57,10 @@ model TemporarilyUnavailable {
   @body body: { code: "temporarily_unavailable"; message: string; };
 }
 
+@doc("Deployment readiness endpoint for external container health checks.")
+@route("/") @get @operationId("getRoot")
+op getRoot(): Health;
+
 @route("/health") @get @operationId("getHealth")
 op getHealth(): Health;
 
