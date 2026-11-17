@@ -1,3 +1,9 @@
+# Keep text files in LF on every platform; leave binary files unchanged.
+* text=auto eol=lf
+
+# Atlas checksums depend on exact migration bytes, including line endings.
+internal/storage/migrations/** text eol=lf
+
 openapi/** linguist-generated=true
 gen/api/** linguist-generated=true
 packages/sdk/src/generated/** linguist-generated=true
